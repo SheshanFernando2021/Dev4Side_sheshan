@@ -1,0 +1,6 @@
+@Dev4Side_sheshan_HostAddress = http://localhost:5296
+
+GET {{Dev4Side_sheshan_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
