@@ -12,9 +12,10 @@ namespace Dev4Side_sheshan.Services
             _listRepo = listRepo;
         }
 
-        public async Task<ListEntity> CreateList(ListEntity listEntity)
+        public async Task<ListEntity> CreateList(ListEntity listEntity, int userid)
         {
-            return await _listRepo.createList(listEntity);
+            listEntity.UserId = userid;
+            return await _listRepo.createList(listEntity, userid);
         }
 
         public async Task DeleteList(int userId, int listId)

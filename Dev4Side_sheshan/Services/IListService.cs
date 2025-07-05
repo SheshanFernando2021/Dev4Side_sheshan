@@ -5,7 +5,7 @@ namespace Dev4Side_sheshan.Services
     public interface IListService
     {
         Task<List<ListEntity>> GetListsAsync(int userId);
-        Task<ListEntity> CreateList(ListEntity listEntity);
+        Task<ListEntity> CreateList(ListEntity listEntity, int userid);
         Task DeleteList (int userId, int listId);
     }
 }
