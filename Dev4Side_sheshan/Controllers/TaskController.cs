@@ -1,4 +1,5 @@
-﻿using Dev4Side_sheshan.Models;
+﻿using Dev4Side_sheshan.DTOs;
+using Dev4Side_sheshan.Models;
 using Dev4Side_sheshan.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,19 +25,37 @@ namespace Dev4Side_sheshan.Controllers
             _taskService = taskService;
         }
 
-        
-        
-        
+
+
+
+        //[HttpGet("{listId}")]
+        //public async Task<IActionResult> GetTasksByListId(int listId)
+        //{
+        //    var userId = GetUserId();
+        //    var Tasks = await _taskService.getAllTasksbyListId(listId, userId, GetUser());
+        //    return Ok(Tasks);
+        //}
+
         [HttpGet("{listId}")]
         public async Task<IActionResult> GetTasksByListId(int listId)
         {
             var userId = GetUserId();
-            var Tasks = await _taskService.getAllTasksbyListId(listId, userId, GetUser());
-            return Ok(Tasks);
+            var tasks = await _taskService.getAllTasksbyListId(listId, userId, GetUser());
+
+            var dtos = tasks.Select(t => new TaskDTO
+            {
+                TaskId = t.TaskId,
+                Name = t.Name,
+                Description = t.Description,
+                Status = t.Status,
+                ListId = t.ListId
+            }).ToList();
+
+            return Ok(dtos);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] TaskEntity taskEntity)
+        public async Task<IActionResult> CreateTask([FromBody] TaskDTO taskEntity)
         {
             var userId = GetUserId();
             var createTask = await _taskService.createTask(taskEntity, userId);

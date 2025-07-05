@@ -1,4 +1,5 @@
-﻿using Dev4Side_sheshan.Models;
+﻿using Dev4Side_sheshan.DTOs;
+using Dev4Side_sheshan.Models;
 using Dev4Side_sheshan.Repos;
 
 namespace Dev4Side_sheshan.Services
@@ -14,15 +15,27 @@ namespace Dev4Side_sheshan.Services
             _listRepo = listRepo;
         }
 
-        public async Task<TaskEntity> createTask(TaskEntity taskEntity, int userid)
+        public async Task<TaskEntity> createTask(TaskDTO dto, int userid)
         {
-            var list = await _listRepo.getOneList(taskEntity.ListId, userid);
-            if (list == null)
+            
+            var list = await _listRepo.getOneList(dto.ListId, userid);
+            if (list == null || list.UserId != userid)
             {
-                throw new Exception($"List not found for the user {userid}");
+                throw new UnauthorizedAccessException("Cannot add task to this list");
             }
-            return await _taskRepo.createTask(taskEntity);
+
+            var task = new TaskEntity
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                Status = dto.Status,
+                ListId = dto.ListId
+            };
+
+            return await _taskRepo.createTask(task);
         }
+
+
 
         public async Task deleteTask(int id, int userId)
         {

@@ -28,7 +28,7 @@ namespace Dev4Side_sheshan
             builder.Services.AddScoped<IListRepo, ListRepo>();
             builder.Services.AddScoped<ITaskRepo, TaskRepo>();
             builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IListService, IListService>();
+            builder.Services.AddScoped<IListService, ListService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
 
             //JWT : Check ✅

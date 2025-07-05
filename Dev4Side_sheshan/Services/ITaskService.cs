@@ -1,4 +1,5 @@
-﻿using Dev4Side_sheshan.Models;
+﻿using Dev4Side_sheshan.DTOs;
+using Dev4Side_sheshan.Models;
 
 namespace Dev4Side_sheshan.Services
 {
@@ -7,7 +8,7 @@ namespace Dev4Side_sheshan.Services
         Task<List<TaskEntity>> getAllTasks(int userId);
         Task<TaskEntity> getTaskById(int taskId);
         Task<List<TaskEntity>> getAllTasksbyListId(int listId , int userId, UserEntity userEntity);
-        Task<TaskEntity> createTask(TaskEntity taskEntity, int userid);
+        Task<TaskEntity> createTask(TaskDTO dto, int userid);
         Task<TaskEntity> updateTask(int taskId, TaskEntity taskEntity, int userid);
         Task deleteTask(int id, int userId);
     }
