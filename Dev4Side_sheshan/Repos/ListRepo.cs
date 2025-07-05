@@ -13,7 +13,7 @@ namespace Dev4Side_sheshan.Repos
             _db = db;
         }
 
-        public async Task<ListEntity> createList(ListEntity listEntity)
+        public async Task<ListEntity> createList(ListEntity listEntity, int userId)
         {
             _db.Lists.Add(listEntity);
             await _db.SaveChangesAsync();

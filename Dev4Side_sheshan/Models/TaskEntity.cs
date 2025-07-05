@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Dev4Side_sheshan.Models
 {
@@ -9,7 +10,8 @@ namespace Dev4Side_sheshan.Models
         public required string Name { get; set; }
         public string? Description { get; set; }
         public string? Status { get; set; }
-        public ListEntity ListEntity { get; set; } = null!;
+        [JsonIgnore]
+        public ListEntity? ListEntity { get; set; }
         public int ListId { get; set; }
     }
 }
