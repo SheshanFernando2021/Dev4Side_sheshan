@@ -1,6 +1,11 @@
-
+﻿
 using Dev4Side_sheshan.Data;
+using Dev4Side_sheshan.Repos;
+using Dev4Side_sheshan.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Dev4Side_sheshan
 {
@@ -10,16 +15,43 @@ namespace Dev4Side_sheshan
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // DbContext: Check ✅
             builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //DI : Check ✅
+            builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IListRepo, ListRepo>();
+            builder.Services.AddScoped<ITaskRepo, TaskRepo>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IListService, IListService>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
+
+            //JWT : Check ✅
+            builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                }; 
+            });
+
+            //Authorization : check✅
+
+            builder.Services.AddAuthorization();
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Development Mode : check✅
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -27,7 +59,7 @@ namespace Dev4Side_sheshan
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
