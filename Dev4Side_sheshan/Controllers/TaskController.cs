@@ -36,23 +36,33 @@ namespace Dev4Side_sheshan.Controllers
         //    return Ok(Tasks);
         //}
 
+        //[HttpGet("{listId}")]
+        //public async Task<IActionResult> GetTasksByListId(int listId)
+        //{
+        //    var userId = GetUserId();
+        //    var tasks = await _taskService.getAllTasksbyListId(listId, userId, GetUser());
+
+        //    var dtos = tasks.Select(t => new TaskDTO
+        //    {
+        //        TaskId = t.TaskId,
+        //        Name = t.Name,
+        //        Description = t.Description,
+        //        Status = t.Status,
+        //        ListId = t.ListId,
+        //        DueDate = t.DueDate,
+        //    }).ToList();
+
+        //    return Ok(dtos);
+        //}
         [HttpGet("{listId}")]
         public async Task<IActionResult> GetTasksByListId(int listId)
         {
             var userId = GetUserId();
             var tasks = await _taskService.getAllTasksbyListId(listId, userId, GetUser());
-
-            var dtos = tasks.Select(t => new TaskDTO
-            {
-                TaskId = t.TaskId,
-                Name = t.Name,
-                Description = t.Description,
-                Status = t.Status,
-                ListId = t.ListId
-            }).ToList();
-
-            return Ok(dtos);
+            return Ok(tasks);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateTask([FromBody] TaskDTO taskEntity)

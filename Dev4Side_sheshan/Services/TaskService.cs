@@ -27,6 +27,7 @@ namespace Dev4Side_sheshan.Services
             var task = new TaskEntity
             {
                 Name = dto.Name,
+                DueDate = dto.DueDate,
                 Description = dto.Description,
                 Status = dto.Status,
                 ListId = dto.ListId
@@ -52,14 +53,35 @@ namespace Dev4Side_sheshan.Services
             return await _taskRepo.getAllByUserId(userId);
         }
 
-        public async Task<List<TaskEntity>> getAllTasksbyListId(int listId, int userId, UserEntity userEntity)
+        //public async Task<List<TaskEntity>> getAllTasksbyListId(int listId, int userId, UserEntity userEntity)
+        //{
+        //    var list = await _listRepo.getOneList(listId, userId);
+        //    if (list == null) {
+        //        throw new Exception($"List not found for {userEntity.Email}");
+        //    }
+        //    return await _taskRepo.getAllByList(listId, userId);
+        //}
+        public async Task<List<TaskDTO>> getAllTasksbyListId(int listId, int userId, UserEntity userEntity)
         {
             var list = await _listRepo.getOneList(listId, userId);
-            if (list == null) {
+            if (list == null)
+            {
                 throw new Exception($"List not found for {userEntity.Email}");
             }
-            return await _taskRepo.getAllByList(listId, userId);
+
+            var tasks = await _taskRepo.getAllByList(listId, userId);
+
+            return tasks.Select(task => new TaskDTO
+            {
+                TaskId = task.TaskId,
+                Name = task.Name,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                Status = task.Status,
+                ListId = task.ListId
+            }).ToList();
         }
+
 
         public Task<TaskEntity> getTaskById(int taskId)
         {
@@ -76,6 +98,7 @@ namespace Dev4Side_sheshan.Services
             existingTask.ListId = taskEntity.ListId;
             existingTask.Description = taskEntity.Description;
             existingTask.Status = taskEntity.Status;
+            existingTask.DueDate = taskEntity.DueDate;
 
             await _taskRepo.updateTask(existingTask);
             return existingTask;
