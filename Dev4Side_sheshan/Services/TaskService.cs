@@ -27,6 +27,7 @@ namespace Dev4Side_sheshan.Services
             var task = new TaskEntity
             {
                 Name = dto.Name,
+                DueDate = dto.DueDate,
                 Description = dto.Description,
                 Status = dto.Status,
                 ListId = dto.ListId

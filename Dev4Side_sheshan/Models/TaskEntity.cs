@@ -10,6 +10,7 @@ namespace Dev4Side_sheshan.Models
         public required string Name { get; set; }
         public string? Description { get; set; }
         public string? Status { get; set; }
+        public DateTime? DueDate { get; set; }
         [JsonIgnore]
         public ListEntity? ListEntity { get; set; }
         public int ListId { get; set; }
