@@ -70,7 +70,7 @@ Controllers → Services → Repos → Data (EF Core) → Database
 
 ### 1. 🔃 Clone the Repository
 ```bash
-[git clone https://github.com/your-username/task-board-api.git](https://github.com/SheshanFernando2021/Dev4Side_sheshan.git)
+git clone https://github.com/SheshanFernando2021/Dev4Side_sheshan.git
 cd Dev4Side_sheshan
 ```
 
