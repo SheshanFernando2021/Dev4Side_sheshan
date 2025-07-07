@@ -49,6 +49,21 @@ namespace Dev4Side_sheshan
             //Authorization : check✅
 
             builder.Services.AddAuthorization();
+
+            // CORS: check ✅
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    builder => builder
+                        .WithOrigins(
+                            "http://localhost:5174",
+                            "https://spectacular-marshmallow-96df42.netlify.app"
+                        )
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
+            });
+
             var app = builder.Build();
 
             // Development Mode : check✅
@@ -59,6 +74,7 @@ namespace Dev4Side_sheshan
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
 
