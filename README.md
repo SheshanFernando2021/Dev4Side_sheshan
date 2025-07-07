@@ -50,7 +50,7 @@ Users must log in to obtain a token and pass it in the `Authorization: Bearer <t
 |------|----------------------|-----------------------------------------|
 | GET   | `/tasks?listId={}`   | Get all tasks in a list |
 | POST  | `/tasks`             | Create a new task |
-| PUT   | `/tasks/{id}`        | Update a task (status, description, due date) |
+| PUT   | `/tasks/{id}`        | Update a task (name, status, description, due date) |
 | DELETE| `/tasks/{id}`        | Delete a specific task |
 
 ---
